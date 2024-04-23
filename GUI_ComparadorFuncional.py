@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 
+##prueba de configuracion de usuario
+
 ventana = Tk()
 ventana.title("COMPARADOR FUNCIONAL DE ARCHIVOS CSV")
 
