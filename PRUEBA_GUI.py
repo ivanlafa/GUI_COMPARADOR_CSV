@@ -12,7 +12,7 @@ class ComparadorCSV:
         self.frame.grid(row=0, column=0, sticky="nsew")
         self.frame.grid_columnconfigure(1, weight=1)  # Columna 1 con tamaño adaptable
 
-        self.label_iteracion = ttk.Label(self.frame, text="Iteración:")
+        self.label_iteracion = ttk.Label(self.frame, text="Iteración: ")
         self.label_iteracion.grid(row=0, column=0, padx=10, pady=5, sticky="w")
         self.iteracion = ttk.Entry(self.frame)
         self.iteracion.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
@@ -24,12 +24,12 @@ class ComparadorCSV:
         self.fase.grid(row=1, column=1, padx=10, pady=5, sticky="ew")
         self.fase.insert(0, "FASE ")
 
-        self.label_entidad = ttk.Label(self.frame, text="Entidad:")
+        self.label_entidad = ttk.Label(self.frame, text="Entidad: ")
         self.label_entidad.grid(row=2, column=0, padx=10, pady=5, sticky="w")
         self.entidad = ttk.Entry(self.frame)
         self.entidad.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
 
-        self.label_enviado = ttk.Label(self.frame, text="Archivo Enviado:")
+        self.label_enviado = ttk.Label(self.frame, text="Archivo Enviado: ")
         self.label_enviado.grid(row=3, column=0, padx=10, pady=5, sticky="w")
         self.enviado = ttk.Entry(self.frame)
         self.enviado.grid(row=3, column=1, padx=10, pady=5, sticky="ew")
@@ -37,7 +37,7 @@ class ComparadorCSV:
         self.boton_enviado.grid(row=3, column=2, padx=10, pady=5)
         self.boton_enviado.configure(style="Custom.TButton")  # Aplicar estilo personalizado
 
-        self.label_cargado = ttk.Label(self.frame, text="Archivo Cargado:")
+        self.label_cargado = ttk.Label(self.frame, text="Archivo Cargado: ")
         self.label_cargado.grid(row=4, column=0, padx=10, pady=5, sticky="w")
         self.cargado = ttk.Entry(self.frame)
         self.cargado.grid(row=4, column=1, padx=10, pady=5, sticky="ew")
@@ -51,8 +51,8 @@ class ComparadorCSV:
 
         # Definir estilos personalizados
         self.style = ttk.Style()
-        self.style.configure("Custom.TButton", background="#4CAF50", foreground="black", padding=10, width=15)
-        self.style.configure("Accent.TButton", background="#2196F3", foreground="black", padding=10, width=15)
+        self.style.configure("Custom.TButton", background="#4CAF50", foreground="black", padding=10, width=15) #color verde
+        self.style.configure("Accent.TButton", background="#2196F3", foreground="black", padding=10, width=15) #color amarillo
 
     def cargar_archivo_enviado(self):
         filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
