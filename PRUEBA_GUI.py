@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import ttk, filedialog, messagebox
 import pandas as pd
 from datetime import datetime
 
@@ -8,47 +8,63 @@ class ComparadorCSV:
         self.master = master
         self.master.title("Comparador de CSVs")
 
-        self.label_iteracion = tk.Label(master, text="Iteración:")
-        self.label_iteracion.grid(row=0, column=0, padx=10, pady=5)
-        self.iteracion = tk.Entry(master)
-        self.iteracion.grid(row=0, column=1, padx=10, pady=5)
+        self.frame = ttk.Frame(self.master, padding="20")
+        self.frame.grid(row=0, column=0, sticky="nsew")
+        self.frame.grid_columnconfigure(1, weight=1)  # Columna 1 con tamaño adaptable
+
+        self.label_iteracion = ttk.Label(self.frame, text="Iteración:")
+        self.label_iteracion.grid(row=0, column=0, padx=10, pady=5, sticky="w")
+        self.iteracion = ttk.Entry(self.frame)
+        self.iteracion.grid(row=0, column=1, padx=10, pady=5, sticky="ew")
         self.iteracion.insert(0, "DELTA")
 
-        self.label_fase = tk.Label(master, text="Fase:")
-        self.label_fase.grid(row=1, column=0, padx=10, pady=5)
-        self.fase = tk.Entry(master)
-        self.fase.grid(row=1, column=1, padx=10, pady=5)
+        self.label_fase = ttk.Label(self.frame, text="Fase:")
+        self.label_fase.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+        self.fase = ttk.Entry(self.frame)
+        self.fase.grid(row=1, column=1, padx=10, pady=5, sticky="ew")
         self.fase.insert(0, "FASE ")
 
-        self.label_entidad = tk.Label(master, text="Entidad:")
-        self.label_entidad.grid(row=2, column=0, padx=20, pady=5)
-        self.entidad = tk.Entry(master)
-        self.entidad.grid(row=2, column=1, padx=20, pady=5)
+        self.label_entidad = ttk.Label(self.frame, text="Entidad:")
+        self.label_entidad.grid(row=2, column=0, padx=10, pady=5, sticky="w")
+        self.entidad = ttk.Entry(self.frame)
+        self.entidad.grid(row=2, column=1, padx=10, pady=5, sticky="ew")
 
-        self.label_enviado = tk.Label(master, text="Archivo Enviado:")
-        self.label_enviado.grid(row=3, column=0, padx=10, pady=5)
-        self.enviado = tk.Entry(master)
-        self.enviado.grid(row=3, column=1, padx=10, pady=5)
-        self.boton_enviado = tk.Button(master, text="Seleccionar", command=self.cargar_archivo_enviado)
+        self.label_enviado = ttk.Label(self.frame, text="Archivo Enviado:")
+        self.label_enviado.grid(row=3, column=0, padx=10, pady=5, sticky="w")
+        self.enviado = ttk.Entry(self.frame)
+        self.enviado.grid(row=3, column=1, padx=10, pady=5, sticky="ew")
+        self.boton_enviado = ttk.Button(self.frame, text="Seleccionar", command=self.cargar_archivo_enviado)
         self.boton_enviado.grid(row=3, column=2, padx=10, pady=5)
+        self.boton_enviado.configure(style="Custom.TButton")  # Aplicar estilo personalizado
 
-        self.label_cargado = tk.Label(master, text="Archivo Cargado:")
-        self.label_cargado.grid(row=4, column=0, padx=10, pady=5)
-        self.cargado = tk.Entry(master)
-        self.cargado.grid(row=4, column=1, padx=10, pady=5)
-        self.boton_cargado = tk.Button(master, text="Seleccionar", command=self.cargar_archivo_cargado)
+        self.label_cargado = ttk.Label(self.frame, text="Archivo Cargado:")
+        self.label_cargado.grid(row=4, column=0, padx=10, pady=5, sticky="w")
+        self.cargado = ttk.Entry(self.frame)
+        self.cargado.grid(row=4, column=1, padx=10, pady=5, sticky="ew")
+        self.boton_cargado = ttk.Button(self.frame, text="Seleccionar", command=self.cargar_archivo_cargado)
         self.boton_cargado.grid(row=4, column=2, padx=10, pady=5)
+        self.boton_cargado.configure(style="Custom.TButton")  # Aplicar estilo personalizado
 
-        self.boton_comparar = tk.Button(master, text="Comparar", command=self.comparar_archivos)
-        self.boton_comparar.grid(row=5, column=0, columnspan=3, pady=10)
+        self.boton_comparar = ttk.Button(self.master, text="Comparar", command=self.comparar_archivos)
+        self.boton_comparar.grid(row=1, column=0, pady=10)
+        self.boton_comparar.configure(style="Accent.TButton")  # Aplicar estilo personalizado
+
+        # Definir estilos personalizados
+        self.style = ttk.Style()
+        self.style.configure("Custom.TButton", background="#4CAF50", foreground="black", padding=10, width=15)
+        self.style.configure("Accent.TButton", background="#2196F3", foreground="black", padding=10, width=15)
 
     def cargar_archivo_enviado(self):
         filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
-        self.enviado.insert(0, filename)
+        if filename:
+            self.enviado.delete(0, tk.END)
+            self.enviado.insert(0, filename)
 
     def cargar_archivo_cargado(self):
         filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
-        self.cargado.insert(0, filename)
+        if filename:
+            self.cargado.delete(0, tk.END)
+            self.cargado.insert(0, filename)
 
     def comparar_archivos(self):
         archivo_enviado = self.enviado.get()
@@ -60,7 +76,7 @@ class ComparadorCSV:
 
         try:
             config = {"delimiter": ","}
-            columnas_a_ignorar = ["created_date", "novedad", "assetgroup", "assettype", "shape_area", "FUENTE", "PARQUE"]
+            columnas_a_ignorar = ["created_date", "novedad", "assetgroup", "assettype", "shape_area", "fuente", "PARQUE"]
 
             df1 = pd.read_csv(archivo_enviado, dtype=str, encoding='latin-1', **config)
             df2 = pd.read_csv(archivo_cargado, dtype=str, encoding='latin-1', **config)
@@ -168,5 +184,6 @@ class ComparadorCSV:
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.geometry("500x300")  # Tamaño inicial de la ventana
     app = ComparadorCSV(root)
     root.mainloop()
